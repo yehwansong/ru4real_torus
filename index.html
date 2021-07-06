@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+html,body{
+            width: 100vw;
+            height: 100%
+        }
+body{
+	background-color: black;
+    overflow: hidden;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+@-webkit-keyframes spinner {
+    from {
+    -webkit-transform: rotateY(0deg);
+    }
+    to {
+    -webkit-transform: rotateY(-360deg);
+    }
+}
+.spinner {
+    -webkit-animation-name: spinner;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-duration: 6s;
+    -webkit-transform-style: preserve-3d;
+    pointer-events: none;
+
+    width: 100%;
+}
+.seq img{
+    opacity: 1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    width: 100%
+}
+.item{
+    position: absolute;
+    /*height: 27.5vh;*/
+    width: 17.5vh;
+    overflow: visible;
+    z-index: 10000;
+    transform: translate(-50%, 0%);
+}
+.item_26.seq{ width: 19.35vh; height: 24vh; }
+/*387 480*/
+/*129 160*/
+.item_27.seq{ width: 19.35vh; height: 29.35vh; }
+/*387 587*/
+/*129 196*/
+.item_28.seq{ width: 24vh; height: 29vh; }
+/*480 580*/
+/*160 193*/
+.item_29.seq{ width: 27vh; height: 14.5vh; }
+/*540 290*/
+/*180 99*/
+.item_30.seq{ width: 25.5vh; height: 18vh; }
+/*510 360*/
+/*167 120*/
+.item_31.seq{ width: 26vh; height: 29vh; }
+/*520 580*/
+/*173 193*/
+.item_32.seq{ width: 13.3vh; height: 29.3vh; }
+/*266 586*/
+/*88 195*/
+.item_33.seq{ width: 20vh; height: 29.35vh; }
+/*400 587*/
+/*133 196*/
+.item_34.seq{ width: 22.65vh; height: 29.35vh; }
+/*453 587*/
+/*151 196*/
+.item_35.seq{ width: 20vh; height: 26vh; }
+/*400 520*/
+/*133 173*/
+.item_36.seq{ width: 30.65vh; height: 30.65vh; }
+/*613 613*/
+/*204 204*/
+.drop{
+    transition: 0.5s ease-out;
+}
+.id_box{
+  z-index: 100000;
+    position: absolute;
+    bottom: 0;
+    height: 10vh;
+    width: 100%;
+    background: #ff3766;
+    left: 0;
+}
+.bot_item{
+    height: 100%;
+    width: auto;
+    border: 5px solid white;
+    display: inline-block;
+    margin-right: 5px;
+    position: relative;
+}
+.bot_item img{
+    height: 100%;
+}
+.button_r{
+    height: 100%;
+    position: absolute;
+    right: 0;
+    width: 50%;
+}
+.button_l{
+    height: 100%;
+    position: absolute;
+    left: 0;
+    width: 50%;
+}
+.button_r:hover,
+.button_l:hover{
+    background: rgba(0,0,0,.5);
+    background-image: url(arrow.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+.button_l{
+    transform: scale(-1);
+}
+.button{
+    position: absolute;
+    width: 10vh;
+    height: 5vh;
+    background-color: white;
+    text-align: center;
+    line-height: 5.2vh;
+    font-family: sans-serif;
+    right: 1vh;
+    top: 25%;
+    border-radius: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.button:hover{
+    filter: invert(1);
+}
+.close{
+    position: absolute;
+    background-color: white;
+    z-index: 1000;
+    background-image: url(close.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 3vh;
+    height: 3vh;
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+    right: 0;
+}
+video{
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    transform: translate(-50%,0%);
+    width: 100vw;
+}
+.item_inner{
+    width: 100%;
+    height: 100%
+}
+.loading span{
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-size: 3.5vh;
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+.loading{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000;
+    background: black;
+    color: white;
+}
+	</style>
+		<script src="jquery.js"></script>
+		<script src="jspdf.js"></script>
+		<script src="script.js"></script>
+	</head>
+	<body>
+        <div class="loading"><span>loading</span></div>
+<div id="stage" style="padding-left: 180px; height: 160px;">
+<div class="item item_1 text"> <div class="item_inner"> <img class="spinner" src="text/text_1.png"> </div></div>
+<div class="item item_2 text"> <div class="item_inner"> <img class="spinner" src="text/text_2.png"> </div></div>
+<div class="item item_3 text"> <div class="item_inner"> <img class="spinner" src="text/text_3.png"> </div></div>
+<div class="item item_4 text"> <div class="item_inner"> <img class="spinner" src="text/text_4.png"> </div></div>
+<div class="item item_5 text"> <div class="item_inner"> <img class="spinner" src="text/text_5.png"> </div></div>
+<div class="item item_6 text"> <div class="item_inner"> <img class="spinner" src="text/text_6.png"> </div></div>
+<div class="item item_7 text"> <div class="item_inner"> <img class="spinner" src="text/text_7.png"> </div></div>
+<div class="item item_8 text"> <div class="item_inner"> <img class="spinner" src="text/text_8.png"> </div></div>
+<div class="item item_9 text"> <div class="item_inner"> <img class="spinner" src="text/text_9.png"> </div></div>
+<div class="item item_10 text"><div class="item_inner"> <img class="spinner" src="text/text_10.png"></div></div>
+<div class="item item_11 text"><div class="item_inner"> <img class="spinner" src="text/text_11.png"></div></div>
+<div class="item item_12 text"><div class="item_inner"> <img class="spinner" src="text/text_12.png"></div></div>
+<div class="item item_13 text"><div class="item_inner"> <img class="spinner" src="text/text_13.png"></div></div>
+<div class="item item_14 text"><div class="item_inner"> <img class="spinner" src="text/text_14.png"></div></div>
+<div class="item item_15 text"><div class="item_inner"> <img class="spinner" src="text/text_15.png"></div></div>
+<div class="item item_16 text"><div class="item_inner"> <img class="spinner" src="text/text_16.png"></div></div>
+<div class="item item_17 text"><div class="item_inner"> <img class="spinner" src="text/text_17.png"></div></div>
+<div class="item item_18 text"><div class="item_inner"> <img class="spinner" src="text/text_18.png"></div></div>
+<div class="item item_19 text"><div class="item_inner"> <img class="spinner" src="text/text_19.png"></div></div>
+<div class="item item_20 text"><div class="item_inner"> <img class="spinner" src="text/text_20.png"></div></div>
+<div class="item item_21 text"><div class="item_inner"> <img class="spinner" src="text/text_21.png"></div></div>
+<div class="item item_22 text"><div class="item_inner"> <img class="spinner" src="text/text_22.png"></div></div>
+<div class="item item_23 text"><div class="item_inner"> <img class="spinner" src="text/text_23.png"></div></div>
+<div class="item item_24 text"><div class="item_inner"> <img class="spinner" src="text/text_24.png"></div></div>
+<div class="item item_25 text"><div class="item_inner"> <img class="spinner" src="text/text_25.png"></div></div>
+<div class="item item_26 seq"><div class="item_inner"><img src="seq/1201.png">  <img src="seq/1202.png">  <img src="seq/1203.png">  <img src="seq/1204.png">  <img src="seq/1205.png">  <img src="seq/1206.png">  <img src="seq/1207.png">  <img src="seq/1208.png">  <img src="seq/1209.png">  <img src="seq/1210.png">  <img src="seq/1211.png">  <img src="seq/1212.png">  <img src="seq/1213.png">  <img src="seq/1214.png">  <img src="seq/1215.png">  <img src="seq/1216.png">  <img src="seq/1217.png">  <img src="seq/1218.png">  <img src="seq/1219.png">  <img src="seq/1220.png">  <img src="seq/1221.png">  <img src="seq/1222.png">  <img src="seq/1223.png">  <img src="seq/1224.png">  <img src="seq/1225.png">  <img src="seq/1226.png">  <img src="seq/1227.png">  <img src="seq/1228.png">  <img src="seq/1229.png">  <img src="seq/1230.png">  <img src="seq/1231.png">  <img src="seq/1232.png">  <img src="seq/1233.png">  <img src="seq/1234.png">  <img src="seq/1235.png">  <img src="seq/1236.png">  <img src="seq/1237.png">  <img src="seq/1238.png">  <img src="seq/1239.png">  <img src="seq/1240.png">  <img src="seq/1241.png">  <img src="seq/1242.png">  <img src="seq/1243.png">  <img src="seq/1244.png">  <img src="seq/1245.png">  <img src="seq/1244.png">  <img src="seq/1243.png">  <img src="seq/1242.png">  <img src="seq/1241.png">  <img src="seq/1240.png">  <img src="seq/1239.png">  <img src="seq/1238.png">  <img src="seq/1237.png">  <img src="seq/1236.png">  <img src="seq/1235.png">  <img src="seq/1234.png">  <img src="seq/1233.png">  <img src="seq/1232.png">  <img src="seq/1231.png">  <img src="seq/1230.png">  <img src="seq/1229.png">  <img src="seq/1228.png">  <img src="seq/1227.png">  <img src="seq/1226.png">  <img src="seq/1225.png">  <img src="seq/1224.png">  <img src="seq/1223.png">  <img src="seq/1222.png">  <img src="seq/1221.png">  <img src="seq/1220.png">  <img src="seq/1219.png">  <img src="seq/1218.png">  <img src="seq/1217.png">  <img src="seq/1216.png">  <img src="seq/1215.png">  <img src="seq/1214.png">  <img src="seq/1213.png">  <img src="seq/1212.png">  <img src="seq/1211.png">  <img src="seq/1210.png">  <img src="seq/1209.png">  <img src="seq/1208.png">  <img src="seq/1207.png">  <img src="seq/1206.png">  <img src="seq/1205.png">  <img src="seq/1204.png">  <img src="seq/1203.png">  <img src="seq/1202.png">  <img src="seq/1201.png">  <img src="seq/1200.png"></div></div>
+<div class="item item_27 seq"><div class="item_inner"><img src="seq/1301.png">  <img src="seq/1302.png">  <img src="seq/1303.png">  <img src="seq/1304.png">  <img src="seq/1305.png">  <img src="seq/1306.png">  <img src="seq/1307.png">  <img src="seq/1308.png">  <img src="seq/1309.png">  <img src="seq/1310.png">  <img src="seq/1311.png">  <img src="seq/1312.png">  <img src="seq/1313.png">  <img src="seq/1314.png">  <img src="seq/1315.png">  <img src="seq/1316.png">  <img src="seq/1317.png">  <img src="seq/1318.png">  <img src="seq/1319.png">  <img src="seq/1320.png">  <img src="seq/1321.png">  <img src="seq/1322.png">  <img src="seq/1323.png">  <img src="seq/1324.png">  <img src="seq/1325.png">  <img src="seq/1326.png">  <img src="seq/1327.png">  <img src="seq/1328.png">  <img src="seq/1329.png">  <img src="seq/1330.png">  <img src="seq/1331.png">  <img src="seq/1332.png">  <img src="seq/1333.png">  <img src="seq/1334.png">  <img src="seq/1335.png">  <img src="seq/1336.png">  <img src="seq/1337.png">  <img src="seq/1338.png">  <img src="seq/1339.png">  <img src="seq/1340.png">  <img src="seq/1341.png">  <img src="seq/1342.png">  <img src="seq/1343.png">  <img src="seq/1344.png">  <img src="seq/1345.png">  <img src="seq/1344.png">  <img src="seq/1343.png">  <img src="seq/1342.png">  <img src="seq/1341.png">  <img src="seq/1340.png">  <img src="seq/1339.png">  <img src="seq/1338.png">  <img src="seq/1337.png">  <img src="seq/1336.png">  <img src="seq/1335.png">  <img src="seq/1334.png">  <img src="seq/1333.png">  <img src="seq/1332.png">  <img src="seq/1331.png">  <img src="seq/1330.png">  <img src="seq/1329.png">  <img src="seq/1328.png">  <img src="seq/1327.png">  <img src="seq/1326.png">  <img src="seq/1325.png">  <img src="seq/1324.png">  <img src="seq/1323.png">  <img src="seq/1322.png">  <img src="seq/1321.png">  <img src="seq/1320.png">  <img src="seq/1319.png">  <img src="seq/1318.png">  <img src="seq/1317.png">  <img src="seq/1316.png">  <img src="seq/1315.png">  <img src="seq/1314.png">  <img src="seq/1313.png">  <img src="seq/1312.png">  <img src="seq/1311.png">  <img src="seq/1310.png">  <img src="seq/1309.png">  <img src="seq/1308.png">  <img src="seq/1307.png">  <img src="seq/1306.png">  <img src="seq/1305.png">  <img src="seq/1304.png">  <img src="seq/1303.png">  <img src="seq/1302.png">  <img src="seq/1301.png">  <img src="seq/1300.png"></div></div>
+<div class="item item_28 seq"><div class="item_inner"><img src="seq/1401.png">  <img src="seq/1402.png">  <img src="seq/1403.png">  <img src="seq/1404.png">  <img src="seq/1405.png">  <img src="seq/1406.png">  <img src="seq/1407.png">  <img src="seq/1408.png">  <img src="seq/1409.png">  <img src="seq/1410.png">  <img src="seq/1411.png">  <img src="seq/1412.png">  <img src="seq/1413.png">  <img src="seq/1414.png">  <img src="seq/1415.png">  <img src="seq/1416.png">  <img src="seq/1417.png">  <img src="seq/1418.png">  <img src="seq/1419.png">  <img src="seq/1420.png">  <img src="seq/1421.png">  <img src="seq/1422.png">  <img src="seq/1423.png">  <img src="seq/1424.png">  <img src="seq/1425.png">  <img src="seq/1426.png">  <img src="seq/1427.png">  <img src="seq/1428.png">  <img src="seq/1429.png">  <img src="seq/1430.png">  <img src="seq/1431.png">  <img src="seq/1432.png">  <img src="seq/1433.png">  <img src="seq/1434.png">  <img src="seq/1435.png">  <img src="seq/1436.png">  <img src="seq/1437.png">  <img src="seq/1438.png">  <img src="seq/1439.png">  <img src="seq/1440.png">  <img src="seq/1441.png">  <img src="seq/1442.png">  <img src="seq/1443.png">  <img src="seq/1444.png">  <img src="seq/1445.png">  <img src="seq/1444.png">  <img src="seq/1443.png">  <img src="seq/1442.png">  <img src="seq/1441.png">  <img src="seq/1440.png">  <img src="seq/1439.png">  <img src="seq/1438.png">  <img src="seq/1437.png">  <img src="seq/1436.png">  <img src="seq/1435.png">  <img src="seq/1434.png">  <img src="seq/1433.png">  <img src="seq/1432.png">  <img src="seq/1431.png">  <img src="seq/1430.png">  <img src="seq/1429.png">  <img src="seq/1428.png">  <img src="seq/1427.png">  <img src="seq/1426.png">  <img src="seq/1425.png">  <img src="seq/1424.png">  <img src="seq/1423.png">  <img src="seq/1422.png">  <img src="seq/1421.png">  <img src="seq/1420.png">  <img src="seq/1419.png">  <img src="seq/1418.png">  <img src="seq/1417.png">  <img src="seq/1416.png">  <img src="seq/1415.png">  <img src="seq/1414.png">  <img src="seq/1413.png">  <img src="seq/1412.png">  <img src="seq/1411.png">  <img src="seq/1410.png">  <img src="seq/1409.png">  <img src="seq/1408.png">  <img src="seq/1407.png">  <img src="seq/1406.png">  <img src="seq/1405.png">  <img src="seq/1404.png">  <img src="seq/1403.png">  <img src="seq/1402.png">  <img src="seq/1401.png">  <img src="seq/1400.png"></div></div>
+<div class="item item_29 seq"><div class="item_inner"><img src="seq/1501.png">  <img src="seq/1502.png">  <img src="seq/1503.png">  <img src="seq/1504.png">  <img src="seq/1505.png">  <img src="seq/1506.png">  <img src="seq/1507.png">  <img src="seq/1508.png">  <img src="seq/1509.png">  <img src="seq/1510.png">  <img src="seq/1511.png">  <img src="seq/1512.png">  <img src="seq/1513.png">  <img src="seq/1514.png">  <img src="seq/1515.png">  <img src="seq/1516.png">  <img src="seq/1517.png">  <img src="seq/1518.png">  <img src="seq/1519.png">  <img src="seq/1520.png">  <img src="seq/1521.png">  <img src="seq/1522.png">  <img src="seq/1523.png">  <img src="seq/1524.png">  <img src="seq/1525.png">  <img src="seq/1526.png">  <img src="seq/1527.png">  <img src="seq/1528.png">  <img src="seq/1529.png">  <img src="seq/1530.png">  <img src="seq/1531.png">  <img src="seq/1532.png">  <img src="seq/1533.png">  <img src="seq/1534.png">  <img src="seq/1535.png">  <img src="seq/1536.png">  <img src="seq/1537.png">  <img src="seq/1538.png">  <img src="seq/1539.png">  <img src="seq/1540.png">  <img src="seq/1541.png">  <img src="seq/1542.png">  <img src="seq/1543.png">  <img src="seq/1544.png">  <img src="seq/1545.png">  <img src="seq/1544.png">  <img src="seq/1543.png">  <img src="seq/1542.png">  <img src="seq/1541.png">  <img src="seq/1540.png">  <img src="seq/1539.png">  <img src="seq/1538.png">  <img src="seq/1537.png">  <img src="seq/1536.png">  <img src="seq/1535.png">  <img src="seq/1534.png">  <img src="seq/1533.png">  <img src="seq/1532.png">  <img src="seq/1531.png">  <img src="seq/1530.png">  <img src="seq/1529.png">  <img src="seq/1528.png">  <img src="seq/1527.png">  <img src="seq/1526.png">  <img src="seq/1525.png">  <img src="seq/1524.png">  <img src="seq/1523.png">  <img src="seq/1522.png">  <img src="seq/1521.png">  <img src="seq/1520.png">  <img src="seq/1519.png">  <img src="seq/1518.png">  <img src="seq/1517.png">  <img src="seq/1516.png">  <img src="seq/1515.png">  <img src="seq/1514.png">  <img src="seq/1513.png">  <img src="seq/1512.png">  <img src="seq/1511.png">  <img src="seq/1510.png">  <img src="seq/1509.png">  <img src="seq/1508.png">  <img src="seq/1507.png">  <img src="seq/1506.png">  <img src="seq/1505.png">  <img src="seq/1504.png">  <img src="seq/1503.png">  <img src="seq/1502.png">  <img src="seq/1501.png">  <img src="seq/1500.png"></div></div>
+<div class="item item_30 seq"><div class="item_inner"><img src="seq/1601.png">  <img src="seq/1602.png">  <img src="seq/1603.png">  <img src="seq/1604.png">  <img src="seq/1605.png">  <img src="seq/1606.png">  <img src="seq/1607.png">  <img src="seq/1608.png">  <img src="seq/1609.png">  <img src="seq/1610.png">  <img src="seq/1611.png">  <img src="seq/1612.png">  <img src="seq/1613.png">  <img src="seq/1614.png">  <img src="seq/1615.png">  <img src="seq/1616.png">  <img src="seq/1617.png">  <img src="seq/1618.png">  <img src="seq/1619.png">  <img src="seq/1620.png">  <img src="seq/1621.png">  <img src="seq/1622.png">  <img src="seq/1623.png">  <img src="seq/1624.png">  <img src="seq/1625.png">  <img src="seq/1626.png">  <img src="seq/1627.png">  <img src="seq/1628.png">  <img src="seq/1629.png">  <img src="seq/1630.png">  <img src="seq/1631.png">  <img src="seq/1632.png">  <img src="seq/1633.png">  <img src="seq/1634.png">  <img src="seq/1635.png">  <img src="seq/1636.png">  <img src="seq/1637.png">  <img src="seq/1638.png">  <img src="seq/1639.png">  <img src="seq/1640.png">  <img src="seq/1641.png">  <img src="seq/1642.png">  <img src="seq/1643.png">  <img src="seq/1644.png">  <img src="seq/1645.png">  <img src="seq/1644.png">  <img src="seq/1643.png">  <img src="seq/1642.png">  <img src="seq/1641.png">  <img src="seq/1640.png">  <img src="seq/1639.png">  <img src="seq/1638.png">  <img src="seq/1637.png">  <img src="seq/1636.png">  <img src="seq/1635.png">  <img src="seq/1634.png">  <img src="seq/1633.png">  <img src="seq/1632.png">  <img src="seq/1631.png">  <img src="seq/1630.png">  <img src="seq/1629.png">  <img src="seq/1628.png">  <img src="seq/1627.png">  <img src="seq/1626.png">  <img src="seq/1625.png">  <img src="seq/1624.png">  <img src="seq/1623.png">  <img src="seq/1622.png">  <img src="seq/1621.png">  <img src="seq/1620.png">  <img src="seq/1619.png">  <img src="seq/1618.png">  <img src="seq/1617.png">  <img src="seq/1616.png">  <img src="seq/1615.png">  <img src="seq/1614.png">  <img src="seq/1613.png">  <img src="seq/1612.png">  <img src="seq/1611.png">  <img src="seq/1610.png">  <img src="seq/1609.png">  <img src="seq/1608.png">  <img src="seq/1607.png">  <img src="seq/1606.png">  <img src="seq/1605.png">  <img src="seq/1604.png">  <img src="seq/1603.png">  <img src="seq/1602.png">  <img src="seq/1601.png">  <img src="seq/1600.png"></div></div>
+<div class="item item_31 seq"><div class="item_inner"><img src="seq/1701.png">  <img src="seq/1702.png">  <img src="seq/1703.png">  <img src="seq/1704.png">  <img src="seq/1705.png">  <img src="seq/1706.png">  <img src="seq/1707.png">  <img src="seq/1708.png">  <img src="seq/1709.png">  <img src="seq/1710.png">  <img src="seq/1711.png">  <img src="seq/1712.png">  <img src="seq/1713.png">  <img src="seq/1714.png">  <img src="seq/1715.png">  <img src="seq/1716.png">  <img src="seq/1717.png">  <img src="seq/1718.png">  <img src="seq/1719.png">  <img src="seq/1720.png">  <img src="seq/1721.png">  <img src="seq/1722.png">  <img src="seq/1723.png">  <img src="seq/1724.png">  <img src="seq/1725.png">  <img src="seq/1726.png">  <img src="seq/1727.png">  <img src="seq/1728.png">  <img src="seq/1729.png">  <img src="seq/1730.png">  <img src="seq/1731.png">  <img src="seq/1732.png">  <img src="seq/1733.png">  <img src="seq/1734.png">  <img src="seq/1735.png">  <img src="seq/1736.png">  <img src="seq/1737.png">  <img src="seq/1738.png">  <img src="seq/1739.png">  <img src="seq/1740.png">  <img src="seq/1741.png">  <img src="seq/1742.png">  <img src="seq/1743.png">  <img src="seq/1744.png">  <img src="seq/1745.png">  <img src="seq/1744.png">  <img src="seq/1743.png">  <img src="seq/1742.png">  <img src="seq/1741.png">  <img src="seq/1740.png">  <img src="seq/1739.png">  <img src="seq/1738.png">  <img src="seq/1737.png">  <img src="seq/1736.png">  <img src="seq/1735.png">  <img src="seq/1734.png">  <img src="seq/1733.png">  <img src="seq/1732.png">  <img src="seq/1731.png">  <img src="seq/1730.png">  <img src="seq/1729.png">  <img src="seq/1728.png">  <img src="seq/1727.png">  <img src="seq/1726.png">  <img src="seq/1725.png">  <img src="seq/1724.png">  <img src="seq/1723.png">  <img src="seq/1722.png">  <img src="seq/1721.png">  <img src="seq/1720.png">  <img src="seq/1719.png">  <img src="seq/1718.png">  <img src="seq/1717.png">  <img src="seq/1716.png">  <img src="seq/1715.png">  <img src="seq/1714.png">  <img src="seq/1713.png">  <img src="seq/1712.png">  <img src="seq/1711.png">  <img src="seq/1710.png">  <img src="seq/1709.png">  <img src="seq/1708.png">  <img src="seq/1707.png">  <img src="seq/1706.png">  <img src="seq/1705.png">  <img src="seq/1704.png">  <img src="seq/1703.png">  <img src="seq/1702.png">  <img src="seq/1701.png">  <img src="seq/1700.png"></div></div>
+<div class="item item_32 seq"><div class="item_inner"><img src="seq/1801.png">  <img src="seq/1802.png">  <img src="seq/1803.png">  <img src="seq/1804.png">  <img src="seq/1805.png">  <img src="seq/1806.png">  <img src="seq/1807.png">  <img src="seq/1808.png">  <img src="seq/1809.png">  <img src="seq/1810.png">  <img src="seq/1811.png">  <img src="seq/1812.png">  <img src="seq/1813.png">  <img src="seq/1814.png">  <img src="seq/1815.png">  <img src="seq/1816.png">  <img src="seq/1817.png">  <img src="seq/1818.png">  <img src="seq/1819.png">  <img src="seq/1820.png">  <img src="seq/1821.png">  <img src="seq/1822.png">  <img src="seq/1823.png">  <img src="seq/1824.png">  <img src="seq/1825.png">  <img src="seq/1826.png">  <img src="seq/1827.png">  <img src="seq/1828.png">  <img src="seq/1829.png">  <img src="seq/1830.png">  <img src="seq/1831.png">  <img src="seq/1832.png">  <img src="seq/1833.png">  <img src="seq/1834.png">  <img src="seq/1835.png">  <img src="seq/1836.png">  <img src="seq/1837.png">  <img src="seq/1838.png">  <img src="seq/1839.png">  <img src="seq/1840.png">  <img src="seq/1841.png">  <img src="seq/1842.png">  <img src="seq/1843.png">  <img src="seq/1844.png">  <img src="seq/1845.png">  <img src="seq/1844.png">  <img src="seq/1843.png">  <img src="seq/1842.png">  <img src="seq/1841.png">  <img src="seq/1840.png">  <img src="seq/1839.png">  <img src="seq/1838.png">  <img src="seq/1837.png">  <img src="seq/1836.png">  <img src="seq/1835.png">  <img src="seq/1834.png">  <img src="seq/1833.png">  <img src="seq/1832.png">  <img src="seq/1831.png">  <img src="seq/1830.png">  <img src="seq/1829.png">  <img src="seq/1828.png">  <img src="seq/1827.png">  <img src="seq/1826.png">  <img src="seq/1825.png">  <img src="seq/1824.png">  <img src="seq/1823.png">  <img src="seq/1822.png">  <img src="seq/1821.png">  <img src="seq/1820.png">  <img src="seq/1819.png">  <img src="seq/1818.png">  <img src="seq/1817.png">  <img src="seq/1816.png">  <img src="seq/1815.png">  <img src="seq/1814.png">  <img src="seq/1813.png">  <img src="seq/1812.png">  <img src="seq/1811.png">  <img src="seq/1810.png">  <img src="seq/1809.png">  <img src="seq/1808.png">  <img src="seq/1807.png">  <img src="seq/1806.png">  <img src="seq/1805.png">  <img src="seq/1804.png">  <img src="seq/1803.png">  <img src="seq/1802.png">  <img src="seq/1801.png">  <img src="seq/1800.png"></div></div>
+<div class="item item_33 seq"><div class="item_inner"><img src="seq/1901.png">  <img src="seq/1902.png">  <img src="seq/1903.png">  <img src="seq/1904.png">  <img src="seq/1905.png">  <img src="seq/1906.png">  <img src="seq/1907.png">  <img src="seq/1908.png">  <img src="seq/1909.png">  <img src="seq/1910.png">  <img src="seq/1911.png">  <img src="seq/1912.png">  <img src="seq/1913.png">  <img src="seq/1914.png">  <img src="seq/1915.png">  <img src="seq/1916.png">  <img src="seq/1917.png">  <img src="seq/1918.png">  <img src="seq/1919.png">  <img src="seq/1920.png">  <img src="seq/1921.png">  <img src="seq/1922.png">  <img src="seq/1923.png">  <img src="seq/1924.png">  <img src="seq/1925.png">  <img src="seq/1926.png">  <img src="seq/1927.png">  <img src="seq/1928.png">  <img src="seq/1929.png">  <img src="seq/1930.png">  <img src="seq/1931.png">  <img src="seq/1932.png">  <img src="seq/1933.png">  <img src="seq/1934.png">  <img src="seq/1935.png">  <img src="seq/1936.png">  <img src="seq/1937.png">  <img src="seq/1938.png">  <img src="seq/1939.png">  <img src="seq/1940.png">  <img src="seq/1941.png">  <img src="seq/1942.png">  <img src="seq/1943.png">  <img src="seq/1944.png">  <img src="seq/1945.png">  <img src="seq/1944.png">  <img src="seq/1943.png">  <img src="seq/1942.png">  <img src="seq/1941.png">  <img src="seq/1940.png">  <img src="seq/1939.png">  <img src="seq/1938.png">  <img src="seq/1937.png">  <img src="seq/1936.png">  <img src="seq/1935.png">  <img src="seq/1934.png">  <img src="seq/1933.png">  <img src="seq/1932.png">  <img src="seq/1931.png">  <img src="seq/1930.png">  <img src="seq/1929.png">  <img src="seq/1928.png">  <img src="seq/1927.png">  <img src="seq/1926.png">  <img src="seq/1925.png">  <img src="seq/1924.png">  <img src="seq/1923.png">  <img src="seq/1922.png">  <img src="seq/1921.png">  <img src="seq/1920.png">  <img src="seq/1919.png">  <img src="seq/1918.png">  <img src="seq/1917.png">  <img src="seq/1916.png">  <img src="seq/1915.png">  <img src="seq/1914.png">  <img src="seq/1913.png">  <img src="seq/1912.png">  <img src="seq/1911.png">  <img src="seq/1910.png">  <img src="seq/1909.png">  <img src="seq/1908.png">  <img src="seq/1907.png">  <img src="seq/1906.png">  <img src="seq/1905.png">  <img src="seq/1904.png">  <img src="seq/1903.png">  <img src="seq/1902.png">  <img src="seq/1901.png">  <img src="seq/1900.png"></div></div>
+<div class="item item_34 seq"><div class="item_inner"><img src="seq/2001.png">  <img src="seq/2002.png">  <img src="seq/2003.png">  <img src="seq/2004.png">  <img src="seq/2005.png">  <img src="seq/2006.png">  <img src="seq/2007.png">  <img src="seq/2008.png">  <img src="seq/2009.png">  <img src="seq/2010.png">  <img src="seq/2011.png">  <img src="seq/2012.png">  <img src="seq/2013.png">  <img src="seq/2014.png">  <img src="seq/2015.png">  <img src="seq/2016.png">  <img src="seq/2017.png">  <img src="seq/2018.png">  <img src="seq/2019.png">  <img src="seq/2020.png">  <img src="seq/2021.png">  <img src="seq/2022.png">  <img src="seq/2023.png">  <img src="seq/2024.png">  <img src="seq/2025.png">  <img src="seq/2026.png">  <img src="seq/2027.png">  <img src="seq/2028.png">  <img src="seq/2029.png">  <img src="seq/2030.png">  <img src="seq/2031.png">  <img src="seq/2032.png">  <img src="seq/2033.png">  <img src="seq/2034.png">  <img src="seq/2035.png">  <img src="seq/2036.png">  <img src="seq/2037.png">  <img src="seq/2038.png">  <img src="seq/2039.png">  <img src="seq/2040.png">  <img src="seq/2041.png">  <img src="seq/2042.png">  <img src="seq/2043.png">  <img src="seq/2044.png">  <img src="seq/2045.png">  <img src="seq/2044.png">  <img src="seq/2043.png">  <img src="seq/2042.png">  <img src="seq/2041.png">  <img src="seq/2040.png">  <img src="seq/2039.png">  <img src="seq/2038.png">  <img src="seq/2037.png">  <img src="seq/2036.png">  <img src="seq/2035.png">  <img src="seq/2034.png">  <img src="seq/2033.png">  <img src="seq/2032.png">  <img src="seq/2031.png">  <img src="seq/2030.png">  <img src="seq/2029.png">  <img src="seq/2028.png">  <img src="seq/2027.png">  <img src="seq/2026.png">  <img src="seq/2025.png">  <img src="seq/2024.png">  <img src="seq/2023.png">  <img src="seq/2022.png">  <img src="seq/2021.png">  <img src="seq/2020.png">  <img src="seq/2019.png">  <img src="seq/2018.png">  <img src="seq/2017.png">  <img src="seq/2016.png">  <img src="seq/2015.png">  <img src="seq/2014.png">  <img src="seq/2013.png">  <img src="seq/2012.png">  <img src="seq/2011.png">  <img src="seq/2010.png">  <img src="seq/2009.png">  <img src="seq/2008.png">  <img src="seq/2007.png">  <img src="seq/2006.png">  <img src="seq/2005.png">  <img src="seq/2004.png">  <img src="seq/2003.png">  <img src="seq/2002.png">  <img src="seq/2001.png">  <img src="seq/2000.png"></div></div>
+<div class="item item_35 seq"><div class="item_inner"><img src="seq/2101.png">  <img src="seq/2102.png">  <img src="seq/2103.png">  <img src="seq/2104.png">  <img src="seq/2105.png">  <img src="seq/2106.png">  <img src="seq/2107.png">  <img src="seq/2108.png">  <img src="seq/2109.png">  <img src="seq/2110.png">  <img src="seq/2111.png">  <img src="seq/2112.png">  <img src="seq/2113.png">  <img src="seq/2114.png">  <img src="seq/2115.png">  <img src="seq/2116.png">  <img src="seq/2117.png">  <img src="seq/2118.png">  <img src="seq/2119.png">  <img src="seq/2120.png">  <img src="seq/2121.png">  <img src="seq/2122.png">  <img src="seq/2123.png">  <img src="seq/2124.png">  <img src="seq/2125.png">  <img src="seq/2126.png">  <img src="seq/2127.png">  <img src="seq/2128.png">  <img src="seq/2129.png">  <img src="seq/2130.png">  <img src="seq/2131.png">  <img src="seq/2132.png">  <img src="seq/2133.png">  <img src="seq/2134.png">  <img src="seq/2135.png">  <img src="seq/2136.png">  <img src="seq/2137.png">  <img src="seq/2138.png">  <img src="seq/2139.png">  <img src="seq/2140.png">  <img src="seq/2141.png">  <img src="seq/2142.png">  <img src="seq/2143.png">  <img src="seq/2144.png">  <img src="seq/2145.png">  <img src="seq/2144.png">  <img src="seq/2143.png">  <img src="seq/2142.png">  <img src="seq/2141.png">  <img src="seq/2140.png">  <img src="seq/2139.png">  <img src="seq/2138.png">  <img src="seq/2137.png">  <img src="seq/2136.png">  <img src="seq/2135.png">  <img src="seq/2134.png">  <img src="seq/2133.png">  <img src="seq/2132.png">  <img src="seq/2131.png">  <img src="seq/2130.png">  <img src="seq/2129.png">  <img src="seq/2128.png">  <img src="seq/2127.png">  <img src="seq/2126.png">  <img src="seq/2125.png">  <img src="seq/2124.png">  <img src="seq/2123.png">  <img src="seq/2122.png">  <img src="seq/2121.png">  <img src="seq/2120.png">  <img src="seq/2119.png">  <img src="seq/2118.png">  <img src="seq/2117.png">  <img src="seq/2116.png">  <img src="seq/2115.png">  <img src="seq/2114.png">  <img src="seq/2113.png">  <img src="seq/2112.png">  <img src="seq/2111.png">  <img src="seq/2110.png">  <img src="seq/2109.png">  <img src="seq/2108.png">  <img src="seq/2107.png">  <img src="seq/2106.png">  <img src="seq/2105.png">  <img src="seq/2104.png">  <img src="seq/2103.png">  <img src="seq/2102.png">  <img src="seq/2101.png">  <img src="seq/2100.png"></div></div>
+<div class="item item_36 seq"><div class="item_inner"><img src="seq/2201.png">  <img src="seq/2202.png">  <img src="seq/2203.png">  <img src="seq/2204.png">  <img src="seq/2205.png">  <img src="seq/2206.png">  <img src="seq/2207.png">  <img src="seq/2208.png">  <img src="seq/2209.png">  <img src="seq/2210.png">  <img src="seq/2211.png">  <img src="seq/2212.png">  <img src="seq/2213.png">  <img src="seq/2214.png">  <img src="seq/2215.png">  <img src="seq/2216.png">  <img src="seq/2217.png">  <img src="seq/2218.png">  <img src="seq/2219.png">  <img src="seq/2220.png">  <img src="seq/2221.png">  <img src="seq/2222.png">  <img src="seq/2223.png">  <img src="seq/2224.png">  <img src="seq/2225.png">  <img src="seq/2226.png">  <img src="seq/2227.png">  <img src="seq/2228.png">  <img src="seq/2229.png">  <img src="seq/2230.png">  <img src="seq/2231.png">  <img src="seq/2232.png">  <img src="seq/2233.png">  <img src="seq/2234.png">  <img src="seq/2235.png">  <img src="seq/2236.png">  <img src="seq/2237.png">  <img src="seq/2238.png">  <img src="seq/2239.png">  <img src="seq/2240.png">  <img src="seq/2241.png">  <img src="seq/2242.png">  <img src="seq/2243.png">  <img src="seq/2244.png">  <img src="seq/2245.png">  <img src="seq/2244.png">  <img src="seq/2243.png">  <img src="seq/2242.png">  <img src="seq/2241.png">  <img src="seq/2240.png">  <img src="seq/2239.png">  <img src="seq/2238.png">  <img src="seq/2237.png">  <img src="seq/2236.png">  <img src="seq/2235.png">  <img src="seq/2234.png">  <img src="seq/2233.png">  <img src="seq/2232.png">  <img src="seq/2231.png">  <img src="seq/2230.png">  <img src="seq/2229.png">  <img src="seq/2228.png">  <img src="seq/2227.png">  <img src="seq/2226.png">  <img src="seq/2225.png">  <img src="seq/2224.png">  <img src="seq/2223.png">  <img src="seq/2222.png">  <img src="seq/2221.png">  <img src="seq/2220.png">  <img src="seq/2219.png">  <img src="seq/2218.png">  <img src="seq/2217.png">  <img src="seq/2216.png">  <img src="seq/2215.png">  <img src="seq/2214.png">  <img src="seq/2213.png">  <img src="seq/2212.png">  <img src="seq/2211.png">  <img src="seq/2210.png">  <img src="seq/2209.png">  <img src="seq/2208.png">  <img src="seq/2207.png">  <img src="seq/2206.png">  <img src="seq/2205.png">  <img src="seq/2204.png">  <img src="seq/2203.png">  <img src="seq/2202.png">  <img src="seq/2201.png">  <img src="seq/2200.png"></div></div>
+<video muted autoplay loop><source src="tseq_2.mp4" type="video/mp4"></video>
+
+    <div class="id_box">
+        <div class="button">Save</div>
+    </div>
+</div>
+</div>
+</body>
+</html>
