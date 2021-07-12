@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css" link="drag.css"></style>
+		<script src="jspdf.js"></script>
+		<script src="jquery.js"></script>
+		<script src="Three.js"></script>
+		<script type="text/javascript" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/OBJLoader.js"></script>
+		<script type="text/javascript" src="mtlloader.js"></script>
+  <script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/three.min.js"></script>
+<script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/js/controls/OrbitControls.js"></script>
+<script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/js/loaders/LoaderSupport.js"></script>
+<script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/js/loaders/OBJLoader2.js"></script>
+<script src="https://threejsfundamentals.org/threejs/resources/threejs/r105/js/loaders/MTLLoader.js"></script>
+		<script src="drag.js"></script>
+		<style type="text/css">
+			*{padding: 0;
+				margin: 0;
+			}
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body{
+			overflow: hidden;
+		}
+		.id_box{
+		    position: absolute;
+		    bottom: 0;
+		    height: 10vh;
+		    width: 100%;    background: #b4b4b4;
+		}
+		.items{
+
+    height: 100%;
+    width: auto;
+    border: 5px solid white;
+    display: inline-block;
+    margin-right: 5px;
+    position: relative;
+		}
+		.items img{
+			height: 100%;
+		}
+		.button_r{
+			height: 100%;
+			position: absolute;
+			right: 0;
+			width: 50%;
+		}
+		.button_l{
+			height: 100%;
+			position: absolute;
+			left: 0;
+			width: 50%;
+		}
+		.button_r:hover,
+		.button_l:hover{
+			background: rgba(0,0,0,.5);
+    background-image: url(arrow.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+		}
+		.button_l{
+			transform: scale(-1);
+		}
+		.button{
+		    position: absolute;
+		    width: 10vh;
+		    height: 5vh;
+		    background-color: white;
+		    text-align: center;
+		    line-height: 3.2;
+		    font-family: sans-serif;
+		    right: 1vh;
+		    top: 25%;
+		    border-radius: 3px;
+		    cursor: pointer;
+		}
+		.button:hover{
+			filter: invert(1);
+		}
+		.close{
+		    position: absolute;
+		    background-color: white;
+    z-index: 1000;
+    background-image: url(close.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 3vh;
+    height: 3vh;
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+    right: 0;
+		}
+		</style>
+</head>
+<script>
+
+	var canvas, scene, renderer, camera;
+	var objects = [];
+	var animating = false;
+	var raycaster;  // A THREE.Raycaster for user mouse input.
+
+	var ground; // A square base on which the cylinders stand.
+	var cylinder;  // A cylinder that will be cloned to make the visible cylinders.
+
+	var world;  // An Object3D that contains all the mesh objects in the scene.
+	// Rotation of the scene is done by rotating the world about its
+	// y-axis.  (I couldn't rotate the camera about the scene since
+	// the Raycaster wouldn't work with a camera that was a child
+	// of a rotated object.)
+	var pivot_0
+	var pivot_1
+	var ww = window.innerWidth,
+		wh = window.innerHeight;
+	var ROTATE = 1, DRAG = 2, ADD = 3, DELETE = 4;  // Possible mouse actions
+	var mouseAction;  // currently selected mouse action
+	var dragItem;  // the cylinder that is being dragged, during a drag operation
+	var intersects; //the objects intersected
+	
+	var targetForDragging;
+	function render() {  
+		// renderer.setSize(ww,wh);
+		renderer.render(scene,camera);
+	}
+var obj_array = ['obj/AMOEBA.obj',
+				'obj/BIKERING.obj',
+				'obj/CHOCOLATE.obj',
+				'obj/FUTURISTICSHIP.obj',
+				'obj/OPERAGLASS.obj',
+				'obj/PEN.obj',
+				'obj/PIECEOFFABRIC.obj',
+				'obj/PLANT.obj',
+				'obj/TATTOO.obj'
+				]
+
+var mtl_array = [
+	'obj/AMEBA.mtl',
+	'obj/BIKERING.mtl',
+	'obj/CHOCOLATE.mtl',
+	'obj/FUTURISTICSHIP.mtl',
+	'obj/OPERAGLASS.mtl',
+	'obj/PEN.mtl',
+	'obj/PIECE_OF_FABRIC.mtl',
+	'obj/PLANTA.mtl',
+	'obj/TATTOO.mtl'
+]
+var objLoader_array = Array(9)
+var root_array = Array(9)
+var texture_array = Array(25)
+var cube_array = Array(25)
+  {
+  }
+function getrandom(){
+	var z,x
+			if(Math.round(Math.random()) == 1){
+				z = -1*Math.random()*17;
+			}else{
+				z = Math.random()*17;
+			}
+			if(Math.round(Math.random()) == 1){
+				x = -1*Math.random()*25;
+			}else{
+				x = Math.random()*25;
+			}
+			return [z,x]
+}
+	var loadOBJ = function(){
+    	objLoader_array[0] = new THREE.OBJLoader2();
+    	// objLoader_array[0].loadMtl(mtl_array[0], null, (materials) => {
+      	// objLoader_array[0].setMaterials(materials);
+	      	objLoader_array[0].load(obj_array[0], (event) => {
+		        root_array[0] = event.detail.loaderRootNode;
+				root_array[0].traverse( function ( child ) {
+					if(child instanceof THREE.Mesh){
+						child.material.color = new THREE.Color(0XFFFFFF);
+						child.geometry.computeVertexNormals();
+					}
+				});
+				root_array[0].scale.set(0.01,0.01,0.01);
+				root_array[0].position.z = getrandom()[0]
+				root_array[0].position.x = getrandom()[1]
+				root_array[0].name = 'img/'+(obj_array[0].split("obj/")[1].split(".obj")[0])+'.jpg'
+				objects.push(root_array[0]);
+				objtoscene()
+      		});
+		// });
+    	objLoader_array[1] = new THREE.OBJLoader2();
+    	// objLoader_array[1].loadMtl(mtl_array[1], null, (materials) => {
+      	// objLoader_array[1].setMaterials(materials);
+	      	objLoader_array[1].load(obj_array[1], (event) => {
+		        root_array[1] = event.detail.loaderRootNode;
+				root_array[1].traverse( function ( child ) {
+					if(child instanceof THREE.Mesh){
+						child.material.color = new THREE.Color(0XFFFFFF);
+						child.geometry.computeVertexNormals();
+					}
+				});
+				root_array[1].scale.set(0.01,0.01,0.01);
+				root_array[1].position.z = getrandom()[0]
+				root_array[1].position.x = getrandom()[1]
+				root_array[1].name = 'img/'+(obj_array[1].split("obj/")[1].split(".obj")[0])+'.jpg'
+				objects.push(root_array[1]);
+				objtoscene()
+      		});
+		// });
+    	objLoader_array[2] = new THREE.OBJLoader2();
+    	// objLoader_array[2].loadMtl(mtl_array[2], null, (materials) => {
+      	// objLoader_array[2].setMaterials(materials);
+	      	objLoader_array[2].load(obj_array[2], (event) => {
+		        root_array[2] = event.detail.loaderRootNode;
+				root_array[2].traverse( function ( child ) {
+					if(child instanceof THREE.Mesh){
+						child.material.color = new THREE.Color(0XFFFFFF);
+						child.geometry.computeVertexNormals();
+					}
+				});
+				root_array[2].scale.set(0.01,0.01,0.01);
+				root_array[2].position.z = getrandom()[0]
+				root_array[2].position.x = getrandom()[1]
+				root_array[2].name = 'img/'+(obj_array[2].split("obj/")[1].split(".obj")[0])+'.jpg'
+				objects.push(root_array[2]);
+				objtoscene()
+      		});
+		// });
+    	objLoader_array[3] = new THREE.OBJLoader2();
+    	// objLoader_array[3].loadMtl(mtl_array[3], null, (materials) => {
+      	// objLoader_array[3].setMaterials(materials);
+	      	objLoader_array[3].load(obj_array[3], (event) => {
+		        root_array[3] = event.detail.loaderRootNode;
+				root_array[3].traverse( function ( child ) {
+					if(child instanceof THREE.Mesh){
+						child.material.color = new THREE.Color(0XFFFFFF);
+						child.geometry.computeVertexNormals();
+					}
+				});
+				root_array[3].scale.set(0.01,0.01,0.01);
+				root_array[3].position.z = getrandom()[0]
+				root_array[3].position.x = getrandom()[1]
+				root_array[3].name = 'img/'+(obj_array[3].split("obj/")[1].split(".obj")[0])+'.jpg'
+				objects.push(root_array[3]);
+				objtoscene()
+      		});
+		// });
+    	objLoader_array[4] = new THREE.OBJLoader2();
+    	// objLoader_array[4].loadMtl(mtl_array[4], null, (materials) => {
+      	// objLoader_array[4].setMaterials(materials);
+	      	objLoader_array[4].load(obj_array[4], (event) => {
+		        root_array[4] = event.detail.loaderRootNode;
+				root_array[4].traverse( function ( child ) {
+					if(child instanceof THREE.Mesh){
+						child.material.color = new THREE.Color(0XFFFFFF);
+						child.geometry.computeVertexNormals();
+					}
+				});
+				root_array[4].scale.set(0.01,0.01,0.01);
+				root_array[4].position.z = getrandom()[0]
+				root_array[4].position.x = getrandom()[1]
+				root_array[4].name = 'img/'+(obj_array[4].split("obj/")[1].split(".obj")[0])+'.jpg'
+				objects.push(root_array[4]);
+				objtoscene()
+      		});
+		// });
+    	objLoader_array[5] = new THREE.OBJLoader2();
+    	// objLoader_array[5].loadMtl(mtl_array[5], null, (materials) => {
+      	// objLoader_array[5].setMaterials(materials);
+	      	objLoader_array[5].load(obj_array[5], (event) => {
+		        root_array[5] = event.detail.loaderRootNode;
+				root_array[5].traverse( function ( child ) {
+					if(child instanceof THREE.Mesh){
+						child.material.color = new THREE.Color(0XFFFFFF);
+						child.geometry.computeVertexNormals();
+					}
+				});
+				root_array[5].scale.set(0.01,0.01,0.01);
+				root_array[5].position.z = getrandom()[0]
+				root_array[5].position.x = getrandom()[1]
+				root_array[5].name = 'img/'+(obj_array[5].split("obj/")[1].split(".obj")[0])+'.jpg'
+				objects.push(root_array[5]);
+				objtoscene()
+      		});
+		// });
+    	objLoader_array[6] = new THREE.OBJLoader2();
+    	// objLoader_array[6].loadMtl(mtl_array[6], null, (materials) => {
+      	// objLoader_array[6].setMaterials(materials);
+	      	objLoader_array[6].load(obj_array[6], (event) => {
+		        root_array[6] = event.detail.loaderRootNode;
+				root_array[6].traverse( function ( child ) {
+					if(child instanceof THREE.Mesh){
+						child.material.color = new THREE.Color(0XFFFFFF);
+						child.geometry.computeVertexNormals();
+					}
+				});
+				root_array[6].scale.set(0.01,0.01,0.01);
+				root_array[6].position.z = getrandom()[0]
+				root_array[6].position.x = getrandom()[1]
+				root_array[6].name = 'img/'+(obj_array[6].split("obj/")[1].split(".obj")[0])+'.jpg'
+				objects.push(root_array[6]);
+				objtoscene()
+      		});
+		// });
+    	objLoader_array[7] = new THREE.OBJLoader2();
+    	// objLoader_array[7].loadMtl(mtl_array[7], null, (materials) => {
+      	// objLoader_array[7].setMaterials(materials);
+	      	objLoader_array[7].load(obj_array[7], (event) => {
+		        root_array[7] = event.detail.loaderRootNode;
+				root_array[7].traverse( function ( child ) {
+					if(child instanceof THREE.Mesh){
+						child.material.color = new THREE.Color(0XFFFFFF);
+						child.geometry.computeVertexNormals();
+					}
+				});
+				root_array[7].scale.set(0.01,0.01,0.01);
+				root_array[7].position.z = getrandom()[0]
+				root_array[7].position.x = getrandom()[1]
+				root_array[7].name = 'img/'+(obj_array[7].split("obj/")[1].split(".obj")[0])+'.jpg'
+				objects.push(root_array[7]);
+				objtoscene()
+      		});
+		// });
+    	objLoader_array[8] = new THREE.OBJLoader2();
+    	// objLoader_array[8].loadMtl(mtl_array[8], null, (materials) => {
+      	// objLoader_array[8].setMaterials(materials);
+	      	objLoader_array[8].load(obj_array[8], (event) => {
+		        root_array[8] = event.detail.loaderRootNode;
+				root_array[8].traverse( function ( child ) {
+					if(child instanceof THREE.Mesh){
+						child.material.color = new THREE.Color(0XFFFFFF);
+						child.geometry.computeVertexNormals();
+					}
+				});
+				root_array[8].scale.set(0.01,0.01,0.01);
+				root_array[8].position.z = getrandom()[0]
+				root_array[8].position.x = getrandom()[1]
+				root_array[8].name = 'img/'+(obj_array[8].split("obj/")[1].split(".obj")[0])+'.jpg'
+				objects.push(root_array[8]);
+				objtoscene()
+      		});
+		// });
+		addplaneInScene()
+	};
+	function degtorad(degrees){
+		return degrees * Math.PI / 180;
+	}
+		var textureLoader = new THREE.TextureLoader();
+	var addBananaInScene = function(object,pivot){
+		console.log(pivot)
+			banana = object;
+			object.traverse( function ( child ) {
+				if(child instanceof THREE.Mesh){
+					child.material.color = new THREE.Color(0XFFFFFF);
+					child.geometry.computeVertexNormals();
+				}
+			});
+			pivot = new THREE.Group();
+			pivot.position.set(0,0,0);
+			banana.scale.set(0.01,0.01,0.01);
+			pivot.add(banana);
+			objects.push(pivot);
+			objtoscene()
+	};
+	var addplaneInScene = function(object){
+		for (var i = 24; i >= 0; i--) {
+			// texture_alpha_array[i] = textureLoader.load( 'text/text_'+(i+1)+'.png' ); //left
+			// texture_alpha_array[i].wrapS = THREE.RepeatWrapping;
+			// texture_alpha_array[i].wrapT = THREE.RepeatWrapping;
+			texture_array[i] = textureLoader.load( 'text/text_'+(i+1)+'.png' ); //left
+			texture_array[i].wrapS = THREE.RepeatWrapping;
+			texture_array[i].wrapT = THREE.RepeatWrapping;
+			cube_array[i] = new THREE.Mesh( new THREE.BoxGeometry(5,0.01,5), new THREE.MeshLambertMaterial( {
+																					map:texture_array[i],
+																					// side: THREE.DoubleSide,
+										            								alphaMap : texture_array[i],
+										            								transparent : true,
+										            								depthWrite  : false ,
+																				}) );
+				cube_array[i].position.z = getrandom()[0]
+				cube_array[i].position.x = getrandom()[1]
+				cube_array[i].name = 'text/text_'+(i+1)+'.png'
+			objects.push(cube_array[i]);
+			console.log(cube_array[i])
+			objtoscene()
+		}
+
+	}
+	function objtoscene(){
+		if(objects.length > 33){
+			console.log(objects)
+				for (var i = objects.length - 1; i >= 0; i--) {
+			if(objects[i].type === 'Group'){
+					objects[i].children[0].rotation.x  = degtorad(-90)
+			}else{
+					objects[i].rotation.z  = degtorad(Math.random()*90)
+			}
+					console.log(objects[i].id)
+					world.add( objects[i]);
+				}
+				setTimeout(function(){render()},100);
+			}
+	}
+	function createWorld() {
+		scene = new THREE.Scene();
+		renderer.setSize(ww,wh);
+		renderer.setClearColor(0x333333);
+		camera = new THREE.PerspectiveCamera(27,canvas.width/canvas.height,1,1000);
+		camera.position.z = 0;
+		camera.position.y = 100;
+		camera.lookAt( new THREE.Vector3(0,0,0) );
+		camera.add(new THREE.PointLight(0xffffff,0.7)); // point light at camera position
+		scene.add(camera);
+		scene.add(new THREE.DirectionalLight(0xffffff,0.5)); // light shining from above.
+
+		world = new THREE.Object3D();
+		scene.add(world);
+
+		targetForDragging = new THREE.Mesh(
+			new THREE.BoxGeometry(100,0.01,100),
+			new THREE.MeshBasicMaterial()
+		);
+		targetForDragging.material.visible = false;
+
+		loadOBJ();
+	}
+
+	var render = function () {
+		requestAnimationFrame(render);
+		for (var i = objects.length - 1; i >= 0; i--) {
+			// console.log(i)
+			if(objects[i].type === 'Group'){
+				objects[i].children[0].rotation.y += .01;
+			}else{
+				objects[i].rotation.z += .01;
+			}
+		}
+		renderer.render(scene, camera);
+	};
+
+
+	function doMouseDown(x,y) {
+		if (targetForDragging.parent == world) {
+			world.remove(targetForDragging);  // I don't want to check for hits on targetForDragging
+		}
+		var a = 2*x/canvas.width - 1;
+		var b = 1 - 2*y/canvas.height;
+		raycaster.setFromCamera( new THREE.Vector2(a,b), camera );
+		console.log(objects)
+		intersects = raycaster.intersectObjects( objects, true );  // no need for recusion since all objects are top-level
+		if (intersects.length == 0) {
+			return false;
+		}
+		var item = intersects[0];
+		var objectHit = item.object;
+		console.log(item.object)
+				if (objectHit == ground) {
+					return false;
+				}
+				else {
+					dragItem = objectHit;
+					world.add(targetForDragging);
+					targetForDragging.position.set(0,item.point.y,0);
+					return true;
+				}
+	}
+
+	function doMouseMove(x,y,evt,prevX,prevY) {
+		if (mouseAction == ROTATE) {
+			var dx = x - prevX;
+			world.rotateY( dx/200 );
+		}
+		else {  // drag
+			var a = 2*x/canvas.width - 1;
+			var b = 1 - 2*y/canvas.height;
+			raycaster.setFromCamera( new THREE.Vector2(a,b), camera );
+			intersects = raycaster.intersectObject( targetForDragging ); 
+			if (intersects.length == 0) {
+				return;
+			}
+			var locationX = intersects[0].point.x;
+			var locationY = intersects[0].point.y;
+			var locationZ = intersects[0].point.z;
+			console.log(locationY)
+			var coords = new THREE.Vector3(locationX, locationY, locationZ);
+			world.worldToLocal(coords);
+			a = coords.x*1;  // clamp coords to the range -19 to 19, so object stays on ground
+			c = coords.y*1;  // clamp coords to the range -19 to 19, so object stays on ground
+			b = coords.z*1;
+			if(b>0){
+					if(!animating){
+				if(dragItem.parent.type === 'Group'){
+					dragItem.parent.position.set(a,c,b);
+					console.log('')
+					dropani(dragItem.parent,1,dragItem.id,dragItem.parent.name,dragItem.parent)
+				}else{
+					dragItem.position.set(a,c,b);
+					dropani(dragItem,1,dragItem.id,dragItem.name,dragItem)
+				}
+						}
+			}
+			if(dragItem.parent.type === 'Group'){
+				dragItem.parent.position.set(a,c,b);
+			}else{
+				dragItem.position.set(a,c,b);
+			}
+		}
+	}
+	function dropani(obj,value,id,name,sel_Item){
+		animating = true
+		value++
+		var cal_value =  easeInCubic(value)/500+20
+		console.log(value)
+		sel_Item.position.z = cal_value
+		if(value<20){
+		    	window.requestAnimationFrame(function() {
+		        dropani(obj,value,id,name,sel_Item)
+		    });
+		}else{
+			addimage(id,name)
+			animating = false
+			return false
+		}
+	}
+	function easeInCubic(t){
+		return t * t * t;
+	}
+	function addimage(id,name){
+		setTimeout(function(){
+		if($('.items_'+id).length==0){
+				$('.id_box').append('<div class="items items_'+id+'"><div class="close"></div><div class="button_r"></div><div class="button_l"></div><img src='+name+'></div>')
+				$('.button_r').click(function(){
+					console.log('sldkfjslkdfj')
+					var prediv = $(this).parent().index()
+					console.log(prediv)
+					$(this).parent().insertAfter($(this).parent().parent().find('.items').eq(prediv));
+				})
+				$('.button_l').click(function(){
+					console.log('sldkfjslkdfj')
+					var prediv = $(this).parent().index()-2
+					console.log(prediv)
+					$(this).parent().insertBefore($(this).parent().parent().find('.items').eq(prediv));
+				})
+				$('.close').click(function(){
+					$(this).parent().remove()
+				})
+			}else{
+				return false
+			}
+
+		},1000)
+	}
+	$(document).ready(function(){
+	$('.button').click(function(){
+		saveDiv()
+	})
+	function saveDiv() {
+		var doc = new jsPDF();
+		$('.id_box').find('img').each(function(index){
+			var myImage = new Image();
+				myImage.src = $(this).attr('src');
+				myImage.onload = function(){
+				doc.addImage(myImage , 'jpg', 5, 5, 40, 40);
+			};
+			if(index == $('.id_box').find('img').length-1){
+				doc.save('myPDF.pdf');
+			}
+		})
+	}
+
+	})
+	
+
+
+
+	function doChangeMouseAction() {
+		if (document.getElementById("mouseRotate").checked) {
+			mouseAction = ROTATE;
+		}
+		else if (document.getElementById("mouseDrag").checked) {
+			mouseAction = DRAG;
+		}
+		else if (document.getElementById("mouseAdd").checked) {
+			mouseAction = ADD;
+		}
+		else {
+			mouseAction = DELETE;
+		}
+	}
+
+	function init() {
+		try {
+			canvas = document.getElementById("maincanvas");
+			renderer = new THREE.WebGLRenderer({
+				canvas: canvas,
+				antialias: true
+			});
+		}
+		catch (e) {
+			document.getElementById("canvas-holder").innerHTML="<p><b>Sorry, an error occurred:<br>" +
+				e + "</b></p>";
+			return;
+		}
+		document.getElementById("mouseDrag").checked = true;
+		mouseAction = DRAG;
+		document.getElementById("mouseRotate").onchange = doChangeMouseAction;
+		document.getElementById("mouseDrag").onchange = doChangeMouseAction;
+		document.getElementById("mouseAdd").onchange = doChangeMouseAction;
+		document.getElementById("mouseDelete").onchange = doChangeMouseAction;
+		createWorld();
+		setUpMouseHander(canvas,doMouseDown,doMouseMove);
+		setUpTouchHander(canvas,doMouseDown,doMouseMove);
+		raycaster = new THREE.Raycaster();
+		render();
+	}
+
+</script>
+<body onload="init()">
+	<div id="content">
+		<p style="display:none">
+			<label><input type="radio" name="action" id="mouseRotate">Rotate</label>
+			<label><input type="radio" name="action" id="mouseDrag">Drag</label>
+			<label><input type="radio" name="action" id="mouseAdd">Add</label>
+			<label><input type="radio" name="action" id="mouseDelete">Delete</label>
+		</p>
+		<div id="canvas-holder">
+			<canvas id="maincanvas"></canvas>
+		</div>
+	<div class="id_box">
+		<div class="button">Save</div>
+	</div>
+	</div>
+	<div id='grand'></div>
+</body>
